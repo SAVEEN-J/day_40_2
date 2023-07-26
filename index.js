@@ -25,7 +25,7 @@ let notes=[
     }
 
 ];
-//set end ponit
+//set end ponit localhost:8080
 app.get('/',(request,responce)=>{
     responce.send("world")
 
@@ -35,7 +35,7 @@ app.get('/api',(request,responce)=>{
 
 })
 
-const PORT =3005;
+const PORT =8080;
 app.listen(PORT ,()=>{
 console.log(`server running on port ${PORT}`);
 });
