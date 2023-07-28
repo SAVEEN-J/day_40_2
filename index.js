@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-// const cors = require('cors');
+//  const cors = require('cors');
 
 // middleware
-// app.use(cors());
-// app.use(express.json());
+//  app.use(cors());
+//  app.use(express.json());
 
 /*
     endpoints
@@ -50,58 +50,59 @@ app.get('/api/notes', (request, response) => {
 // creates a new resource based on the request data
 app.post('/api/notes', (request, response) => {
     // console.log(request.body);
+    const id = request.params.id;
     notes = notes.concat(request.body);
     response.status(201).json({message: 'note created successfully'});
 });
 
 // fetches a single resource based on id
-// app.get('/api/notes/:id', (request, response) => {
-//     const id = request.params.id;
-//     const note = notes.find(note => note.id == id);
-//     if(note){
-//         response.status(200).json(note);
-//     } else {
-//         response.status(404).json({message: 'id does not exists'});
-//     }
-// });
+app.get('/api/notes/:id', (request, response) => {
+    const id = request.params.id;
+    const note = notes.find(note => note.id == id);
+    if(note){
+        response.status(200).json(note);
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
 
 // deletes a single resource based on id
-// app.delete('/api/notes/:id', (request, response) => {
-//     // get the id
-//     const id = request.params.id;
-//     const note = notes.find(note => note.id == id);
-//     notes = notes.filter(note => note.id != id);
-//     if(note){
-//         response.status(204).json(note);
-//     } else {
-//         response.status(404).json({message: 'id does not exists'});
-//     }
-// });
+app.delete('/api/notes/:id', (request, response) => {
+    // get the id
+    const id = request.params.id;
+    const note = notes.find(note => note.id == id);
+    notes = notes.filter(note => note.id != id);
+    if(note){
+        response.status(204).json(note);
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
 
 // replaces the entire note object identified by an id
-// app.put('/api/notes/:id', (request, response) => {
-//     const id = request.params.id;
-//     const noteToReplace = request.body;
-//     const note = notes.find(note => note.id == id);
-//     notes = notes.map(note => note.id == id ? noteToReplace : note);
-//     if(note){
-//         response.status(200).json({message: 'note replaced'});
-//     } else {
-//         response.status(404).json({message: 'id does not exists'});
-//     }
-// });
-
-// app.patch('/api/notes/:id', (request, response) => {
-//     const id = request.params.id;
-//     const noteToReplace = request.body;
-//     const note = notes.find(note => note.id == id);
-//     notes = notes.map(note => note.id == id ? {...note, ...noteToReplace} : note);
-//     if(note){
-//         response.status(200).json({message: 'note patched'});
-//     } else {
-//         response.status(404).json({message: 'id does not exists'});
-//     }
-// });
+app.put('/api/notes/:id', (request, response) => {
+    const id = request.params.id;
+    const noteToReplace = request.body;
+    const note = notes.find(note => note.id == id);
+    notes = notes.map(note => note.id == id ? noteToReplace : note);
+    if(note){
+        response.status(200).json({message: 'note replaced'});
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
+//uopdate one field
+app.patch('/api/notes/:id', (request, response) => {
+    const id = request.params.id;
+    const noteToReplace = request.body;
+    const note = notes.find(note => note.id == id);
+    notes = notes.map(note => note.id == id ? {...note, ...noteToReplace} : note);
+    if(note){
+        response.status(200).json({message: 'note patched'});
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
 
 
 const PORT = 8080;
