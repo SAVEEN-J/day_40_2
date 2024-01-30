@@ -1,4 +1,6 @@
 // console.log("world");
+
+
 //simp-le web server
 
 //http is a liberay...itsbuild in only 
@@ -28,12 +30,12 @@ let notes=[
 //creaqte app
 const app =http.createServer((request,responce)=>{
 //set responce header
-// responce.writeHead(200,{'Content-Type':'text/html'})
-responce.writeHead(200,{'Content-Type':'application/json'});
-responce.end(JSON.stringify(notes));
+// responce.writeHead(200,{'Content-Type':'application/json'});
+// responce.end(JSON.stringify(notes));
 
 
-// responce.end('<h1>hello world</h1>')
+//  responce.writeHead(200,{'Content-Type':'text/html'})
+//  responce.end('<h1>hello world</h1>')
 
 });
 //create port to listen data    it listen the resquest
