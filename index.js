@@ -1,8 +1,9 @@
-// console.log("world");
-//simp-le web server
+
 
 //http is a liberay...itsbuild in only 
-const http = require('http');
+const express = require('express');
+const app = express();
+
 
 //its json
 let notes=[
@@ -23,23 +24,18 @@ let notes=[
         "important":true
     }
 
-]
+];
+//set end ponit localhost:8080
+app.get('/',(request,responce)=>{
+    responce.send("world")
 
-//creaqte app
-const app =http.createServer((request,responce)=>{
-//set responce header
-// responce.writeHead(200,{'Content-Type':'text/html'})
-responce.writeHead(200,{'Content-Type':'application/json'});
-responce.end(JSON.stringify(notes));
+})  
+app.get('/api',(request,responce)=>{
+    responce.json(notes)
 
+})
 
-// responce.end('<h1>hello world</h1>')
-
-});
-//create port to listen data    it listen the resquest
-//poer is avalible 0 to 65535
-//some or resverde 88 like this 27017
-const PORT =3001;
-app.listen(PORT);
+const PORT =8080;
+app.listen(PORT ,()=>{
 console.log(`server running on port ${PORT}`);
-//run in chrome localhost:3001
+});
