@@ -1,45 +1,111 @@
-// console.log("world");
-//simp-le web server
+const express = require('express');
+const app = express();
+//  const cors = require('cors');
 
-//http is a liberay...itsbuild in only 
-const http = require('http');
+// middleware
+//  app.use(cors());
+//  app.use(express.json());
 
-//its json
-let notes=[
+/*
+    endpoints
+
+    URL             Request Type    Functionality
+    /api/notes      GET             fetches all the notes
+    /api/notes/10   GET             fetches a single note
+    /api/notes      POST            creates a new note based on the request data
+    /api/notes/10   DELETE          deletes a note identified by id
+    /api/notes/10   PUT             replaces the entire note identified by id with the request data
+    /api/notes/10   PATCH           replaces a part of the note identified by id with the request data
+*/
+
+let notes = [
     {
-        "id":1,
-        "name":"saveen",
-        "important":true
-
+        id: 1,
+        content: 'backend server using Nodejs',
+        important: true
     },
     {
-        "id":2,
-        "name":"sibi",
-        "important":true
+        id: 2,
+        content: 'backend restful using nodejs will grow complex',
+        important: false
     },
     {
-        "id":3,
-        "name":"ruth",
-        "important":true
+        id: 3,
+        content: 'express makes backend restful painless',
+        important: true
     }
+];
 
-]
-
-//creaqte app
-const app =http.createServer((request,responce)=>{
-//set responce header
-// responce.writeHead(200,{'Content-Type':'text/html'})
-responce.writeHead(200,{'Content-Type':'application/json'});
-responce.end(JSON.stringify(notes));
-
-
-// responce.end('<h1>hello world</h1>')
-
+// set the endpoints
+// set the / route
+app.get('/', (request, response) => {
+    response.send('<h1>Notes Application</h1>');
 });
-//create port to listen data    it listen the resquest
-//poer is avalible 0 to 65535
-//some or resverde 88 like this 27017
-const PORT =3001;
-app.listen(PORT);
-console.log(`server running on port ${PORT}`);
-//run in chrome localhost:3001
+
+// endpoint to get all the notes 
+app.get('/api/notes', (request, response) => {
+    response.json(notes);
+});
+
+// creates a new resource based on the request data
+app.post('/api/notes', (request, response) => {
+    // console.log(request.body);
+    const id = request.params.id;
+    notes = notes.concat(request.body);
+    response.status(201).json({message: 'note created successfully'});
+});
+
+// fetches a single resource based on id
+app.get('/api/notes/:id', (request, response) => {
+    const id = request.params.id;
+    const note = notes.find(note => note.id == id);
+    if(note){
+        response.status(200).json(note);
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
+
+// deletes a single resource based on id
+app.delete('/api/notes/:id', (request, response) => {
+    // get the id
+    const id = request.params.id;
+    const note = notes.find(note => note.id == id);
+    notes = notes.filter(note => note.id != id);
+    if(note){
+        response.status(204).json(note);
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
+
+// replaces the entire note object identified by an id
+app.put('/api/notes/:id', (request, response) => {
+    const id = request.params.id;
+    const noteToReplace = request.body;
+    const note = notes.find(note => note.id == id);
+    notes = notes.map(note => note.id == id ? noteToReplace : note);
+    if(note){
+        response.status(200).json({message: 'note replaced'});
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
+//uopdate one field
+app.patch('/api/notes/:id', (request, response) => {
+    const id = request.params.id;
+    const noteToReplace = request.body;
+    const note = notes.find(note => note.id == id);
+    notes = notes.map(note => note.id == id ? {...note, ...noteToReplace} : note);
+    if(note){
+        response.status(200).json({message: 'note patched'});
+    } else {
+        response.status(404).json({message: 'id does not exists'});
+    }
+});
+
+
+const PORT = 8080;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
