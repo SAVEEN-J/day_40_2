@@ -8,6 +8,7 @@ const cors = require("cors");
 
 app.use(express.json());
  const url=process.env.ATLAS_URI;
+//  const $PORT=process.env.LOCAL_HOST;
 
 // const url =`mongodb+srv://saveen:saveen@cluster0.sjce8ng.mongodb.net/DAY_40First?retryWrites=true&w=majority`
  mongose.connect(url)
@@ -107,7 +108,11 @@ app.patch("/api/notes/:id", (req, res) => {
     }
   });
 });
+//  app.listen($PORT ,()=>{
+//     console.log(`server running on port ${$PORT}`);
+//     });
 
-app.listen(8080, () => {
-    console.log("server running in port 8080");
-  });
+const PORT =8080;
+app.listen(PORT ,()=>{
+console.log(`server running on port ${PORT}`);
+});
