@@ -29,15 +29,15 @@ const noteSchema =new mongose.Schema({
 });
 
 //create a model
-const Note =mongose.model('Note',noteSchema,'CollectionName')
-console.log(Note);
+const Note =mongose.model('Note',noteSchema,'notes')
+console.log("Note",Note);
 
 
-app.get('/',(req,res,next)=>{
-  res.send("<h1>Mongo Configration and api </h1>");
-})
+// app.get('/',(req,res,next)=>{
+//   res.send("<h1>Mongo Configration and api </h1>");
+// })
 // getting full data from backend
-app.get("/api/notes", (req, res) => {
+app.get('/api/notes', (req, res) => {
   Note.find({}, {}).then((notes) => {
     res.status(200).json(notes);
   });
@@ -105,14 +105,14 @@ app.patch("/api/notes/:id", (req, res) => {
       res.status(200).json({ message: "updated" });
     } else {
       res.status(404).json({ message: "id not found" });
-    }
+    }   
   });
 });
 //  app.listen($PORT ,()=>{
 //     console.log(`server running on port ${$PORT}`);
 //     });
 
-const PORT =8080;
+const PORT =3005;
 app.listen(PORT ,()=>{
 console.log(`server running on port ${PORT}`);
 });

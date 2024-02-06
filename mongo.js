@@ -29,7 +29,7 @@ const noteSchema =new mongose.Schema({
 });
 
 //4444444444create a model
-const Note =mongose.model('Note',noteSchema,'Day41')//collection name :  collection name is called (Note) to notes ...2 arrgument is shema  3. collections name is 3 arguments its is automaticalls convert to (Note) to notes
+const Note =mongose.model('Note',noteSchema,'notes')//collection name :  collection name is called (Note) to notes ...2 arrgument is shema  3. collections name is 3 arguments its is automaticalls convert to (Note) to notes
 
 
 
