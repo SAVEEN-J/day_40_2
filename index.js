@@ -1,29 +1,26 @@
-require("dotenv").config();
 
+require("dotenv").config();
+ const mongose = require('mongoose');
+const config= require('./utils/config');
 const express = require("express");
 const app = express();
 const cors = require("cors");
 //route export from routes
 // const featchAllNotes=require('./routes/featchAllNotes')
- const mongose = require('mongoose');
+ const logger =require('./utils/logger'); //we use like this logger.info,logger.error
+//  const {info,error} =require('./utils/logger'); //we use like this info and error
 
 
-
+//middleware
 app.use(cors());
 app.use(express.json());
-//////////////////////////////data base Start //////////////////////
 
- const URL=process.env.ATLAS_URI; 
-//  const $PORT=process.env.LOCAL_HOST;
-
-// const url =`connection url`
- mongose.connect(URL)
+ mongose.connect(config.MONGODB_URI)
 .then(()=>{
-    console.log("Connected to Mongo DB");
-    // mongose.connection.close(); it is close the connection when the mongo db is connected
-})
+    logger.info("Connected to Mongo DB");
+  })
 .catch((err)=>{
-    console.error(err);
+    logger.error(err);
 });
 
 
@@ -33,11 +30,8 @@ const noteSchema =new mongose.Schema({
     important:Boolean
 
 });
-
-//create a model
 const Note =mongose.model('Note',noteSchema,'notes')
-console.log("Note",Note);
-//////////////////////////////data base end//////////////////////
+
 
 // app.get('/',(req,res,next)=>{
 //   res.send("<h1>Mongo Configration and api </h1>");
@@ -131,7 +125,7 @@ app.patch("/api/notes/:id", (req, res) => {
 //     console.log(`server running on port ${$PORT}`);
 //     });
 
-const PORT =3005;
-app.listen(PORT ,()=>{
-console.log(`server running on port ${PORT}`);
+
+app.listen(config.PORT ,()=>{
+logger.info(`server running on port ${config.PORT}`);
 });
