@@ -1,17 +1,23 @@
-
 require("dotenv").config();
-const mongose = require('mongoose');
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
+//route export from routes
+// const featchAllNotes=require('./routes/featchAllNotes')
+ const mongose = require('mongoose');
 
 
+
+app.use(cors());
 app.use(express.json());
- const url=process.env.ATLAS_URI;
+//////////////////////////////data base Start //////////////////////
+
+ const URL=process.env.ATLAS_URI; 
 //  const $PORT=process.env.LOCAL_HOST;
 
-// const url =`mongodb+srv://saveen:saveen@cluster0.sjce8ng.mongodb.net/DAY_40First?retryWrites=true&w=majority`
- mongose.connect(url)
+// const url =`connection url`
+ mongose.connect(URL)
 .then(()=>{
     console.log("Connected to Mongo DB");
     // mongose.connection.close(); it is close the connection when the mongo db is connected
@@ -31,17 +37,30 @@ const noteSchema =new mongose.Schema({
 //create a model
 const Note =mongose.model('Note',noteSchema,'notes')
 console.log("Note",Note);
-
+//////////////////////////////data base end//////////////////////
 
 // app.get('/',(req,res,next)=>{
 //   res.send("<h1>Mongo Configration and api </h1>");
 // })
 // getting full data from backend
+
 app.get('/api/notes', (req, res) => {
   Note.find({}, {}).then((notes) => {
     res.status(200).json(notes);
   });
 }); 
+
+
+
+// const Note = require('./models/notes')
+
+//get data from backend
+// app.use('/api/notes',featchAllNotes);
+
+
+
+
+
 
 //store data in backend
 //app.use(express.json());to post  json data
