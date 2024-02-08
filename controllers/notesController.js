@@ -1,13 +1,13 @@
- const featchAllNotes=require('./routes/featchAllNotes')
- const express = require("express");
- const app = express();
-
+ const notesRouterApp = require('express').Router();
+//create model
+const Note = require('../models/notesModel')
+ 
 // app.get('/',(req,res,next)=>{
 //   res.send("<h1>Mongo Configration and api </h1>");
 // })
 // getting full data from backend
 
-app.get('/api/notes', (req, res) => {
+notesRouterApp.get('/', (req, res) => {
     Note.find({}, {}).then((notes) => {
       res.status(200).json(notes);
     });
@@ -21,7 +21,7 @@ app.get('/api/notes', (req, res) => {
   // app.use('/api/notes',featchAllNotes);
 //store data in backend
 //app.use(express.json());to post  json data
-app.post('/api/notes', (req, res) => {
+notesRouterApp.post('/', (req, res) => {
     // console.log(req.body);
     //preparing object to store in collection
     const note = new Note(req.body);
@@ -32,9 +32,9 @@ app.post('/api/notes', (req, res) => {
     });
   });
   
-  // getting data of particular id for update
+  // getting data of particular id for update api/notes/:id
   
-  app.get("/api/notes/:id", (req, res) => {
+  notesRouterApp.get("/:id", (req, res) => {
     const id = req.params.id;
     Note.findById(id).then((note) => {
       if (note) {
@@ -45,9 +45,9 @@ app.post('/api/notes', (req, res) => {
     });
   });
   
-  // delete data of particular id
+  // delete data of particular id api/notes/:id
   
-  app.delete("/api/notes/:id", (req, res) => {
+  notesRouterApp.delete("/:id", (req, res) => {
     const id = req.params.id;
     Note.findByIdAndDelete(id).then((deletedNote) => {
       if (deletedNote) {
@@ -57,9 +57,9 @@ app.post('/api/notes', (req, res) => {
       }
     });
   });
-  // put data of particular id update
+  // put data of particular id update api/notes/:id
   
-  app.put("/api/notes/:id", (req, res) => {
+  notesRouterApp.put("/:id", (req, res) => {
     const id = req.params.id;
     const updatedNote = req.body;
     Note.findByIdAndUpdate(id, updatedNote).then((updatedNote) => {
@@ -71,9 +71,9 @@ app.post('/api/notes', (req, res) => {
     });
   });
   
-   // patching data of particular id update
+   // patching data of particular id update api/notes/:id
   
-  app.patch("/api/notes/:id", (req, res) => {
+   notesRouterApp.patch("/:id", (req, res) => {
     const id = req.params.id;
     const updatedNote = req.body;
     Note.findByIdAndUpdate(id, updatedNote).then((updatedNote) => {
@@ -86,6 +86,4 @@ app.post('/api/notes', (req, res) => {
   });
 
 
-  module.exports={
-    notes
-  }
+  module.exports=notesRouterApp;
