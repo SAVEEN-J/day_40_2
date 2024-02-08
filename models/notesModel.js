@@ -2,7 +2,11 @@ const mongose = require('mongoose');
 
 const noteSchema =new mongose.Schema({
     content:String,
-    important:Boolean
+    important:Boolean,
+    user:{
+        type: mongose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 
 });
 

@@ -4,6 +4,7 @@ const mongose = require('mongoose');
 const logger =require('./utils/logger');
 const config= require('./utils/config');
 const notesRouter = require('./controllers/notesController')
+const usersRouter = require('./controllers/usersController')
 const middleware =require('./utils/middleware')
 
 const express = require("express");
@@ -25,11 +26,14 @@ mongose.connect(config.MONGODB_URI)
 app.use(cors());
 app.use(express.json());
 
-app.use(middleware.requestLogger);
+app.use("requestLogger",middleware.requestLogger);
 
-//api
+//api notes
 app.use('/api/notes',notesRouter);
+//api user
+app.use('/api/users',usersRouter);
 
-app.use(middleware.unknownEndpoint);
+
+app.use("unknownEndpoint",middleware.unknownEndpoint);
 
 module.exports=app;
