@@ -5,6 +5,8 @@ const logger =require('./utils/logger');
 const config= require('./utils/config');
 const notesRouter = require('./controllers/notesController')
 const usersRouter = require('./controllers/usersController')
+const userresetRouter = require("./controllers/resetController");
+
 const middleware =require('./utils/middleware')
 
 const express = require("express");
@@ -32,6 +34,9 @@ app.use("requestLogger",middleware.requestLogger);
 app.use('/api/notes',notesRouter);
 //api user
 app.use('/api/users',usersRouter);
+//api reset password
+app.use('/api/users/reset',userresetRouter);
+
 
 
 app.use("unknownEndpoint",middleware.unknownEndpoint);
